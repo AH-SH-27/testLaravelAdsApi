@@ -1,7 +1,8 @@
 Ads API Laravel Assessment
 Overview
 
-This Laravel application implements a REST API for managing ads with dynamic fields based on categories fetched from the API. The system supports creating, retrieving, and listing ads with validation for dynamic fields, using a MySQL database for storage.
+This Laravel application implements a REST API for managing ads with dynamic fields based on categories fetched from the API.
+The system supports creating, retrieving, and listing ads with validation for dynamic fields, using a MySQL database for storage.
 
 The application is fully functional, meets the assessment requirements, and has been thoroughly tested.
 
@@ -25,29 +26,20 @@ Tests
 
 The application was tested with Laravel’s test suite, covering the following scenarios:
 
-Authenticated users can create ads with dynamic fields. ✅
+Test Scenario	Status
+Authenticated users can create ads with dynamic fields	✅
+Ad creation fails if mandatory dynamic fields are missing	✅
+Integer fields validated for min/max values and reject strings	✅
+Float fields validated as numeric	✅
+Enum fields validated against allowed options	✅
+String fields validated for min/max length	✅
+Boolean fields support multiple input formats (true/false, yes/no, 1/0)	✅
+Fields from other categories are ignored	✅
+Optional dynamic fields can be omitted	✅
+Unauthenticated users cannot create ads	✅
+Ad creation fails with invalid category	✅
 
-Ad creation fails if mandatory dynamic fields are missing. ✅
-
-Integer fields are validated for min/max values and reject strings. ✅
-
-Float fields validated as numeric. ✅
-
-Enum fields validated against allowed options. ✅
-
-String fields validated for min/max length. ✅
-
-Boolean fields support multiple input formats (true/false, yes/no, 1/0). ✅
-
-Fields from other categories are ignored. ✅
-
-Optional dynamic fields can be omitted. ✅
-
-Unauthenticated users cannot create ads. ✅
-
-Ad creation fails with invalid category. ✅
-
-Test results:
+Test Results:
 
 Tests: 12 passed (47 assertions)
 Duration: 1.08s
@@ -233,7 +225,9 @@ Migrations included for all tables.
 
 Caching
 
-Implemented
+Implemented for categories and category fields.
+
+Reduces API calls and improves performance.
 
 Notes
 
