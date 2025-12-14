@@ -1,50 +1,87 @@
 Ads API Laravel Assessment
+
 Overview
 
-This Laravel application implements a REST API for managing ads with dynamic fields based on categories fetched from the API.
-The system supports creating, retrieving, and listing ads with validation for dynamic fields, using a MySQL database for storage.
+This Laravel application implements a REST API for managing ads with dynamic fields based on categories fetched from an external API.
 
-The application is fully functional, meets the assessment requirements, and has been thoroughly tested.
+The system supports creating, retrieving, and listing ads with validation for dynamic fields, using a MySQL database for storage. The application is fully functional, meets the assessment requirements, and has been thoroughly tested.
 
 Features
 
-Fetches categories and category fields dynamically from the API.
+Dynamic Data Ingestion: Fetches categories and category fields dynamically from the API.
 
-Builds dynamic validation rules for ads based on retrieved category fields.
+Dynamic Validation: Builds dynamic validation rules for ads based on retrieved category fields.
 
-Allows creating ads with required and optional dynamic fields.
+Ad Creation: Allows creating ads with required and optional dynamic fields.
 
-Retrieves user ads with pagination.
+User Ads: Retrieves user ads with pagination.
 
-Authentication using Laravel Sanctum (token-based).
+Authentication: Uses Laravel Sanctum (token-based).
 
-Caching implemented to reduce API calls and improve performance.
+Performance: Caching implemented to reduce API calls and improve performance.
 
-Fully tested using PHPUnit feature tests.
+Testing: Fully tested using PHPUnit feature tests.
 
 Tests
 
-The application was tested with Laravel’s test suite, covering the following scenarios:
+The application was tested with Laravel’s test suite, covering all critical dynamic validation and authentication scenarios.
 
-Test Scenario	Status
-Authenticated users can create ads with dynamic fields	✅
-Ad creation fails if mandatory dynamic fields are missing	✅
-Integer fields validated for min/max values and reject strings	✅
-Float fields validated as numeric	✅
-Enum fields validated against allowed options	✅
-String fields validated for min/max length	✅
-Boolean fields support multiple input formats (true/false, yes/no, 1/0)	✅
-Fields from other categories are ignored	✅
-Optional dynamic fields can be omitted	✅
-Unauthenticated users cannot create ads	✅
-Ad creation fails with invalid category	✅
+Test Scenario
+
+Status
+
+Authenticated users can create ads with dynamic fields
+
+✅
+
+Ad creation fails if mandatory dynamic fields are missing
+
+✅
+
+Integer fields validated for min/max values and reject strings
+
+✅
+
+Float fields validated as numeric
+
+✅
+
+Enum fields validated against allowed options
+
+✅
+
+String fields validated for min/max length
+
+✅
+
+Boolean fields support multiple input formats (true/false, yes/no, 1/0)
+
+✅
+
+Fields from other categories are ignored
+
+✅
+
+Optional dynamic fields can be omitted
+
+✅
+
+Unauthenticated users cannot create ads
+
+✅
+
+Ad creation fails with invalid category
+
+✅
 
 Test Results:
 
 Tests: 12 passed (47 assertions)
 Duration: 1.08s
 
+
 API Endpoints with Sample Requests and Responses
+
 1. Register User
 
 POST /api/v1/register
@@ -73,6 +110,7 @@ Response (201 Created):
   "token_type": "Bearer"
 }
 
+
 2. Login User
 
 POST /api/v1/login
@@ -99,6 +137,7 @@ Response (200 OK):
   "token": "9|eSMed0ZgvxWhCy3dgymwQSo7MFUibd8AMoleqd6rb6240c38",
   "token_type": "Bearer"
 }
+
 
 3. Create Ad
 
@@ -139,6 +178,7 @@ Response (201 Created):
     "updated_at": "2025-12-14T18:04:12.000000Z"
   }
 }
+
 
 4. List User Ads
 
@@ -187,6 +227,7 @@ Response (200 OK):
   }
 }
 
+
 5. Get Ad Details
 
 GET /api/v1/ads/{id} (no token required)
@@ -217,6 +258,9 @@ Response (200 OK):
   }
 }
 
+
+⚙️ Backend Architecture Notes
+
 Database
 
 MySQL database used for persisting users, categories, category fields, field options, and ads.
@@ -225,16 +269,10 @@ Migrations included for all tables.
 
 Caching
 
-Implemented for categories and category fields.
+Caching is implemented for fetching categories and category fields definitions.
 
-Reduces API calls and improves performance.
+This significantly reduces external API calls and improves application performance, especially for the high-traffic validation layer.
 
-Notes
+Conclusion
 
-The application fully matches the assessment requirements.
-
-All API responses and dynamic validations have been tested and verified.
-
-Data is saved correctly in the database and retrieved with proper formatting.
-
-The code follows Laravel best practices for services, seeders, and request validation.
+The application fully matches the assessment requirements. All API responses and dynamic validations have been tested and verified, ensuring data integrity and correct retrieval. The code follows Laravel best practices for services, seeders, and request validation.
