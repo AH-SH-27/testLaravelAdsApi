@@ -1,59 +1,246 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Ads API Laravel Assessment
+Overview
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This Laravel application implements a REST API for managing ads with dynamic fields based on categories fetched from the API. The system supports creating, retrieving, and listing ads with validation for dynamic fields, using a MySQL database for storage.
 
-## About Laravel
+The application is fully functional, meets the assessment requirements, and has been thoroughly tested.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Fetches categories and category fields dynamically from the API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Builds dynamic validation rules for ads based on retrieved category fields.
 
-## Learning Laravel
+Allows creating ads with required and optional dynamic fields.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Retrieves user ads with pagination.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Authentication using Laravel Sanctum (token-based).
 
-## Laravel Sponsors
+Caching implemented to reduce API calls and improve performance.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Fully tested using PHPUnit feature tests.
 
-### Premium Partners
+Tests
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+The application was tested with Laravel’s test suite, covering the following scenarios:
 
-## Contributing
+Authenticated users can create ads with dynamic fields. ✅
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ad creation fails if mandatory dynamic fields are missing. ✅
 
-## Code of Conduct
+Integer fields are validated for min/max values and reject strings. ✅
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Float fields validated as numeric. ✅
 
-## Security Vulnerabilities
+Enum fields validated against allowed options. ✅
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+String fields validated for min/max length. ✅
 
-## License
+Boolean fields support multiple input formats (true/false, yes/no, 1/0). ✅
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Fields from other categories are ignored. ✅
+
+Optional dynamic fields can be omitted. ✅
+
+Unauthenticated users cannot create ads. ✅
+
+Ad creation fails with invalid category. ✅
+
+Test results:
+
+Tests: 12 passed (47 assertions)
+Duration: 1.08s
+
+API Endpoints with Sample Requests and Responses
+1. Register User
+
+POST /api/v1/register
+
+Request Body:
+
+{
+  "name": "Test User",
+  "email": "test3515@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+
+
+Response (201 Created):
+
+{
+  "user": {
+    "name": "Test User",
+    "email": "test3515@example.com",
+    "updated_at": "2025-12-14T18:03:49.000000Z",
+    "created_at": "2025-12-14T18:03:49.000000Z",
+    "id": 9
+  },
+  "token": "7|S5KupbGuRHE0o4MS8PCrDUXL09WrrxCRJvZdBxNB300ed57c",
+  "token_type": "Bearer"
+}
+
+2. Login User
+
+POST /api/v1/login
+
+Request Body:
+
+{
+  "email": "test6@example.com",
+  "password": "password123"
+}
+
+
+Response (200 OK):
+
+{
+  "user": {
+    "id": 6,
+    "name": "Test6 User6",
+    "email": "test6@example.com",
+    "email_verified_at": null,
+    "created_at": "2025-12-14T06:45:12.000000Z",
+    "updated_at": "2025-12-14T06:45:12.000000Z"
+  },
+  "token": "9|eSMed0ZgvxWhCy3dgymwQSo7MFUibd8AMoleqd6rb6240c38",
+  "token_type": "Bearer"
+}
+
+3. Create Ad
+
+POST /api/v1/ads (requires Bearer token)
+
+Request Body:
+
+{
+  "category_id": 51,
+  "title": "Toyota Camry 2020",
+  "description": "Excellent condition, low mileage",
+  "price": 15000
+}
+
+
+Response (201 Created):
+
+{
+  "data": {
+    "id": 11,
+    "title": "Toyota Camry 2020",
+    "description": "Excellent condition, low mileage",
+    "price": 15000,
+    "status": "published",
+    "category": {
+      "id": 51,
+      "name": "Kitchen & Kitchenware",
+      "external_id": "239"
+    },
+    "dynamic_fields": {
+      "price": {
+        "name": "Price",
+        "value": "15000.00",
+        "type": "float"
+      }
+    },
+    "created_at": "2025-12-14T18:04:12.000000Z",
+    "updated_at": "2025-12-14T18:04:12.000000Z"
+  }
+}
+
+4. List User Ads
+
+GET /api/v1/my-ads (requires Bearer token)
+
+Response (200 OK):
+
+{
+  "data": [
+    {
+      "id": 11,
+      "title": "Toyota Camry 2020",
+      "description": "Excellent condition, low mileage",
+      "price": 15000,
+      "status": "published",
+      "category": {
+        "id": 51,
+        "name": "Kitchen & Kitchenware",
+        "external_id": "239"
+      },
+      "dynamic_fields": {
+        "price": {
+          "name": "Price",
+          "value": "15000.00",
+          "type": "float"
+        }
+      },
+      "created_at": "2025-12-14T18:04:12.000000Z",
+      "updated_at": "2025-12-14T18:04:12.000000Z"
+    }
+  ],
+  "links": {
+    "first": "http://localhost:8000/api/v1/my-ads?page=1",
+    "last": "http://localhost:8000/api/v1/my-ads?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "path": "http://localhost:8000/api/v1/my-ads",
+    "per_page": 15,
+    "to": 1,
+    "total": 1
+  }
+}
+
+5. Get Ad Details
+
+GET /api/v1/ads/{id} (no token required)
+
+Response (200 OK):
+
+{
+  "data": {
+    "id": 4,
+    "title": "Toyota Camry 2020",
+    "description": "Excellent condition, low mileage",
+    "price": 15000,
+    "status": "published",
+    "category": {
+      "id": 51,
+      "name": "Kitchen & Kitchenware",
+      "external_id": "239"
+    },
+    "dynamic_fields": {
+      "price": {
+        "name": "Price",
+        "value": "15000.00",
+        "type": "float"
+      }
+    },
+    "created_at": "2025-12-14T17:30:31.000000Z",
+    "updated_at": "2025-12-14T17:30:31.000000Z"
+  }
+}
+
+Database
+
+MySQL database used for persisting users, categories, category fields, field options, and ads.
+
+Migrations included for all tables.
+
+Caching
+
+Implemented
+
+Notes
+
+The application fully matches the assessment requirements.
+
+All API responses and dynamic validations have been tested and verified.
+
+Data is saved correctly in the database and retrieved with proper formatting.
+
+The code follows Laravel best practices for services, seeders, and request validation.
