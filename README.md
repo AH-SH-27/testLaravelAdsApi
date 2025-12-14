@@ -1,103 +1,86 @@
-Ads API Laravel Assessment
+# Ads API Laravel Assessment
 
-Overview
+[![Laravel Version](https://img.shields.io/badge/Laravel-10.x-orange)](https://laravel.com/docs/10.x)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2-blue)](https://www.php.net/releases/8.2/)
+[![Tests](https://img.shields.io/badge/Tests-Passed-brightgreen)](https://phpunit.de/)
 
-This Laravel application implements a REST API for managing ads with dynamic fields based on categories fetched from an external API.
+---
 
-The system supports creating, retrieving, and listing ads with validation for dynamic fields, using a MySQL database for storage. The application is fully functional, meets the assessment requirements, and has been thoroughly tested.
+## Table of Contents
 
-Features
+- [Overview](#overview)
+- [Features](#features)
+- [Tests](#tests)
+- [API Endpoints](#api-endpoints-with-sample-requests-and-responses)
+  - [Register User](#1-register-user)
+  - [Login User](#2-login-user)
+  - [Create Ad](#3-create-ad)
+  - [List User Ads](#4-list-user-ads)
+  - [Get Ad Details](#5-get-ad-details)
+- [Backend Architecture Notes](#-backend-architecture-notes)
+- [Conclusion](#conclusion)
 
-Dynamic Data Ingestion: Fetches categories and category fields dynamically from the API.
+---
 
-Dynamic Validation: Builds dynamic validation rules for ads based on retrieved category fields.
+## Overview
 
-Ad Creation: Allows creating ads with required and optional dynamic fields.
+This Laravel application implements a **REST API** for managing ads with dynamic fields based on categories fetched from an external API.  
 
-User Ads: Retrieves user ads with pagination.
+The system supports **creating, retrieving, and listing ads** with validation for dynamic fields, using a **MySQL database** for storage. The application is fully functional, meets the assessment requirements, and has been thoroughly tested.
 
-Authentication: Uses Laravel Sanctum (token-based).
+---
 
-Performance: Caching implemented to reduce API calls and improve performance.
+## Features
 
-Testing: Fully tested using PHPUnit feature tests.
+- **Dynamic Data Ingestion**: Fetches categories and category fields dynamically from an API.  
+- **Dynamic Validation**: Builds dynamic validation rules for ads based on retrieved category fields.  
+- **Ad Creation**: Allows creating ads with required and optional dynamic fields.  
+- **User Ads**: Retrieves user ads with pagination.  
+- **Authentication**: Uses **Laravel Sanctum** (token-based).  
+- **Performance**: Caching implemented to reduce API calls and improve performance.  
+- **Testing**: Fully tested using PHPUnit feature tests.
 
-Tests
+---
+
+## Tests
 
 The application was tested with Laravel’s test suite, covering all critical dynamic validation and authentication scenarios.
 
-Test Scenario
+| Test Scenario                                                                 | Status |
+|-------------------------------------------------------------------------------|--------|
+| Authenticated users can create ads with dynamic fields                        | ✅     |
+| Ad creation fails if mandatory dynamic fields are missing                     | ✅     |
+| Integer fields validated for min/max values and reject strings                | ✅     |
+| Float fields validated as numeric                                             | ✅     |
+| Enum fields validated against allowed options                                 | ✅     |
+| String fields validated for min/max length                                    | ✅     |
+| Boolean fields support multiple input formats (true/false, yes/no, 1/0)      | ✅     |
+| Fields from other categories are ignored                                      | ✅     |
+| Optional dynamic fields can be omitted                                        | ✅     |
+| Unauthenticated users cannot create ads                                       | ✅     |
+| Ad creation fails with invalid category                                       | ✅     |
 
-Status
+**Test Results**:  
+- **Tests:** 12 passed (47 assertions)  
+- **Duration:** 1.08s  
 
-Authenticated users can create ads with dynamic fields
+---
 
-✅
+## API Endpoints with Sample Requests and Responses
 
-Ad creation fails if mandatory dynamic fields are missing
+### 1. Register User
 
-✅
+**POST** `/api/v1/register`
 
-Integer fields validated for min/max values and reject strings
-
-✅
-
-Float fields validated as numeric
-
-✅
-
-Enum fields validated against allowed options
-
-✅
-
-String fields validated for min/max length
-
-✅
-
-Boolean fields support multiple input formats (true/false, yes/no, 1/0)
-
-✅
-
-Fields from other categories are ignored
-
-✅
-
-Optional dynamic fields can be omitted
-
-✅
-
-Unauthenticated users cannot create ads
-
-✅
-
-Ad creation fails with invalid category
-
-✅
-
-Test Results:
-
-Tests: 12 passed (47 assertions)
-Duration: 1.08s
-
-
-API Endpoints with Sample Requests and Responses
-
-1. Register User
-
-POST /api/v1/register
-
-Request Body:
-
+**Request Body:**
+```json
 {
   "name": "Test User",
   "email": "test3515@example.com",
   "password": "password123",
   "password_confirmation": "password123"
 }
-
-
 Response (201 Created):
-
 {
   "user": {
     "name": "Test User",
@@ -109,8 +92,6 @@ Response (201 Created):
   "token": "7|S5KupbGuRHE0o4MS8PCrDUXL09WrrxCRJvZdBxNB300ed57c",
   "token_type": "Bearer"
 }
-
-
 2. Login User
 
 POST /api/v1/login
@@ -121,8 +102,6 @@ Request Body:
   "email": "test6@example.com",
   "password": "password123"
 }
-
-
 Response (200 OK):
 
 {
@@ -137,7 +116,6 @@ Response (200 OK):
   "token": "9|eSMed0ZgvxWhCy3dgymwQSo7MFUibd8AMoleqd6rb6240c38",
   "token_type": "Bearer"
 }
-
 
 3. Create Ad
 
@@ -178,7 +156,6 @@ Response (201 Created):
     "updated_at": "2025-12-14T18:04:12.000000Z"
   }
 }
-
 
 4. List User Ads
 
@@ -227,7 +204,6 @@ Response (200 OK):
   }
 }
 
-
 5. Get Ad Details
 
 GET /api/v1/ads/{id} (no token required)
@@ -258,9 +234,7 @@ Response (200 OK):
   }
 }
 
-
 ⚙️ Backend Architecture Notes
-
 Database
 
 MySQL database used for persisting users, categories, category fields, field options, and ads.
@@ -269,9 +243,9 @@ Migrations included for all tables.
 
 Caching
 
-Caching is implemented for fetching categories and category fields definitions.
+Implemented for fetching categories and category fields definitions.
 
-This significantly reduces external API calls and improves application performance, especially for the high-traffic validation layer.
+Significantly reduces external API calls and improves application performance, especially for the high-traffic validation layer.
 
 Conclusion
 
